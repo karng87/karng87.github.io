@@ -1,4 +1,5 @@
 ---
+layout: author
 short_name: karng
 name: Karng Lee
 position: Chief Editor
