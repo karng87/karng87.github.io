@@ -1,0 +1,15 @@
+---
+layout: default
+title: Wiki Doctor
+---
+
+<h1> Patients </h1>
+
+<ul>
+  {% for person in site.wiki %}
+  <li>
+    <h2><a href="{{ person.url }}"> {{ person.name }} </a></h2>
+    <h3> {{ person.z-no }} </h3>
+  </li>
+  {% endfor %}
+</ul>

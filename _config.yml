@@ -1,3 +1,20 @@
+title: 하니 Karng
+url: "https://karng87.github.io"
+baseurl: ""
+description: >
+  하니 블로그
+
+email: karng87@gmail.com
+author: 하니 Karng
+profile: k-haskell
+comment-support: utterances
+
 collections:
   authors:
     output: true
+    permalink: /:collection/:name/
+
+  wiki:
+    output: true
+    permalink: /:collection/:name/
+
