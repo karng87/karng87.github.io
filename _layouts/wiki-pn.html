@@ -1,0 +1,31 @@
+---
+layout: default
+---
+<div class="pn">
+
+  <h1> {{ page.name }} </h1>
+  <h2> {{ page.sex }} </h2>
+  <h2> {{ page.f-day }} </h2>
+  <h2> {{ page.l-day }} </h2>
+  <h2> {{ page.z-no }} </h2>
+  <h2> {{ page.p-no }} </h2>
+  <h2> {{ page.addr }} </h2>
+  <h2> {{ page.history }} </h2>
+  <h2> {{ page.family }} </h2>
+
+  <!-- 
+  <p> 
+
+    {% assign pns = site.wiki | where:"tag","mrecord" %}
+      {% for pn in pns %}
+        {% if pn.name == page.name %}
+        - <a href = {{  pn.url }} > {{  page.excerpt }} </a>
+        {% endif %}
+      {% endfor %}
+  </p>
+  -->
+  <article class="pn-content">
+  {{ content }}
+  </article>
+{% include createLink.html %}
+</div>

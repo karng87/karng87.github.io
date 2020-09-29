@@ -1,4 +1,14 @@
+title: Hani Manager
+url: "https://karng87/github.io"
+baseurl: ""
+description: >
+  hani manager description
+
 collections:
   authors:
     output: true
 
+  wiki:
+    output: true
+
+blame: "https://github.com/karng87/karng87.github.io/blame/master/_wiki"

@@ -1,4 +1,16 @@
 ---
 ---
+@charset "utf-8";
 
-@import "main";
+$base-font-family  : Arial;
+$default-font-size : 0.9rem;
+$small-font-size   : $default-font-size * 0.8;
+$base-line-height  : 1.5;
+
+$coding-font: Consolas, "Courier New", Courier;
+$theme-color: #6C3483;
+
+// Import from 'sass_dir' (default: _sass)
+//@import "main";
+//@import "base", "layout", "syntax";
+@import "main", "layout", "syntax";

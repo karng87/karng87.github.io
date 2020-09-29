@@ -1,0 +1,17 @@
+---
+layout: default
+title: Patients
+---
+
+<h1> Latest Patient </h1>
+
+  <ul>
+    {% for patients in site.wiki %}
+      {% if patients.tags != "pname" %}
+        <li>
+          <h3> <a href="{{ patients.url }}" > {{ patients.name }} </a> </h3>
+          <p> {{ patients.z-no }} </p>
+        </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
