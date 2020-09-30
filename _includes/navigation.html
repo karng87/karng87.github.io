@@ -1,5 +1,10 @@
-<nav>
-  {% for item in site.data.navigation %}
-  <a href={{item.link}} {% if page.url == item.link %} class="current" {% endif %}>{{item.name}}</a>
-  {% endfor %}
+<nav class="header">
+  {% assign items = site.data.navigation | reverse %}
+    {% for item in items %}
+      {% if item.name == "Home" %}
+        <a class="site-title" href={{item.link}} {% if page.url == item.link %} class="current" {% endif %}>{{item.name}}</a>
+      {% else %}
+        <a class="site-title-right" href={{item.link}} {% if page.url == item.link %} class="current" {% endif %}>{{item.name}}</a>
+      {% endif %}
+    {% endfor %}
 </nav>

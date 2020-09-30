@@ -2,7 +2,7 @@ body {
     margin: 0;
 }
 body, th, td, div, p, li {
-    font-size: 1.5rem;
+    font-size: 0.9rem;
     line-height: 1.5;
 }
 
@@ -31,9 +31,6 @@ pre, pre code {
 }
 pre code {
     padding: 0;
-}
-.current {
-  color: red;
 }
 .hide {
     display: none;
@@ -84,4 +81,3 @@ h6 {
     font-weight: bold;
     font-style: italic;
 }
-
