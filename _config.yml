@@ -12,9 +12,9 @@ comment-support: utterances
 collections:
   authors:
     output: true
-    permalink: /:collection/:name/
+    #permalink: /:collection/:name/
 
   wiki:
     output: true
-    permalink: /:collection/:name/
+    #permalink: /:collection/:name/
 

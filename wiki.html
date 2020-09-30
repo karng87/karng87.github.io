@@ -6,10 +6,11 @@ title: Wiki Doctor
 <h1> Patients </h1>
 
 <ul>
-  {% for person in site.wiki %}
+  {% assign pns = site.wiki | where:"tags", "pname" %}
+  {% for pn in pns %}
   <li>
-    <h2><a href="{{ person.url }}"> {{ person.name }} </a></h2>
-    <h3> {{ person.z-no }} </h3>
+    <h2><a href="{{ pn.url }}"> {{ pn.name }} </a></h2>
+    <h3> {{ pn.z-no }} </h3>
   </li>
   {% endfor %}
 </ul>

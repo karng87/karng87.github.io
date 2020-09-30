@@ -1,0 +1,23 @@
+---
+layout: default
+title: Patient
+---
+
+<h1>이름: {{ page.name }}</h1>
+<h2>성별: {{ page.gender }}</h2>
+<h2>주민: {{ page.zno }}</h2>
+<h2>전번: {{ page.pno }}</h2>
+<h2>초진: {{ page.f-day }}</h2>
+<h2>재진: {{ page.last-day }}</h2>
+<h2>병력: {{ page.history }}</h2>
+
+<h2> Medical Records </h2>
+
+<ul>
+
+  {% assign mrecords = site.wiki | where:"parent", page.name %}
+  {% for mrecord in mrecords %}
+    <li> <a href = {{ mrecord.url }} > {{ mrecord.f-day}} </a> </li>
+  {% endfor %}
+
+</ul>
