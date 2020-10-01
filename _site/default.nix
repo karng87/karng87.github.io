@@ -9,5 +9,10 @@ let
   };
 in stdenv.mkDerivation {
   name = "vim-wiki";
-  buildInputs = [env ruby];
+  buildInputs = [
+    env 
+    ruby
+    nodejs 
+    yarn
+  ];
 }

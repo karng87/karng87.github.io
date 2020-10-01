@@ -5,3 +5,30 @@ mNum: 15
 ---
     <h1>{{ "Hello World!" | uppercase}}</h1>
     <h1>{{ page.mNum }}</h1>
+
+    <div>
+      <h3> 최근 변경된 문서</h3>
+      <ul class="post-list">
+        {% assign docs = site.wiki | sort: 'l-day' | reverse %}
+        {% for doc in docs limit: 10 %}
+          {% if doc.public != false and doc.title !='wiki index' %}
+            <li>
+              <div>
+                <a class="post-link" href="{{ doc.url | prepend: site.baseurl }}">
+                  <div class="post-meta">
+                    {{ doc.l-day | date: "%Y.%m.%d" }} - {{ doc.name}}
+                  </div>
+                  <div class="post-excerpt">{{ doc.excerpt }}</div>
+                  <ul class="tag-list">
+                    {% for tag in doc.tags %}
+                      <li class="post-tag">
+                        <a href="/tag/#{{tag}}">#{{tag}}</a>
+                      </li>
+                    {% endfor %}
+                  </ul>
+                </a>
+              </div>
+            </li>
+          {% endif %}
+        {% endfor %}
+    </div>
