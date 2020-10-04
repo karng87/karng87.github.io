@@ -1,0 +1,12 @@
+post:
+    - {fileName: 2018-08-20-bananas}
+    - {fileName: 2020-09-24-kiwi}
+'medical record':
+    - {fileName: 2020-09-30-12-43-32}
+    - {fileName: 2020-09-30-12-46-35}
+    - {fileName: 2020-09-30-13-51-07}
+    - {fileName: 2020-09-30-13-52-07}
+patient:
+    - {fileName: hoon}
+    - {fileName: karng}
+    - {fileName: lee}

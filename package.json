@@ -1,0 +1,15 @@
+{
+  "name": "karng87.github.io",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:karng87/karng87.github.io.git",
+  "author": "karng87 <karng87@gmail.com>",
+  "license": "MIT",
+  "bin": {
+    "test":"./test.js",
+    "generateTags":"./generateTags.js"
+  },
+  "dependencies": {
+    "yamljs": "^0.3.0"
+  }
+}

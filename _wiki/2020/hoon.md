@@ -2,13 +2,13 @@
 layout   : wiki-pname
 title    : Patient
 category : hani
-tags     : pname
+tags     : ["patient"]
 parent   : index
 name     : hoon
-f-day    : 2020-09-30 13:51:07 +0900
-last-day : 2020-09-30 13:51:35 +0900
-z-no     : 
-p-no     : 010-
+fday    : 2020-09-30 13:51:07 +0900
+lday : 2020-10-01 21:57:19 +0900
+zno     : 
+pno     : 010-
 addr     : 서울 송파구
 history  : 
 family   : 
