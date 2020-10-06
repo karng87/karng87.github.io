@@ -10,37 +10,78 @@ let itergen = gen();
 let arr = [0,1,2,[3,4,[5,6,7]],[8,9]];
 let arj = [1,2,3,4,5,6,7,8,9];
 
-const curried = (f) => (x,...xs) => (xs.length) ? f(x, ...xs) : (...xs) => f(x,...xs);
+
+const curried = (f) => 
+    (x,...xs) => {
+      if (xs.length) { 
+        console.log ("Curried Arg 2개");
+        return f(x, ...xs);  
+      }else {
+        console.log ("Curried Arg 1개");
+        return (...xs) => f(x,...xs)
+      }
+    };
 const go = (x, ...fs) => reduce ((a,f)=> f(a), x, fs);
 const pipe = (...xs) => (...ys) => go(...ys,...xs);
-const L = {};
+
+function* empty() {}
+
+function toIter(iter) {
+  return iter && iter[Symbol.iterator] ? iter[Symbol.iterator]() : empty();
+}
+
+//const reduce = curried(function(f, acc, iter) {
+//  if (arguments.length == 2) {
+//    iter = toIter(acc);
+//    acc = iter.next().value;
+//  console.log("ACC...");
+//  }
+//  for (const a of iter) {
+//  console.log("for .....",a);
+//  console.log("ACC .....",acc);
+//    acc = f(acc, a);
+//  }
+//  return acc;
+//});
+//
 
 const reduce = curried((f, acc, iter) => {
+    console.log('====== start reduce ======');
+    console.log('2st acc: ',acc);
+    console.log('3st iter: ',iter);
   if(!iter) {
-    iter = (acc[Symbol.iterator]) ? acc[Symbol.iterator]() : acc = (function* (){});
+    //iter = acc ;
+    iter = acc && acc[Symbol.iterator] ? acc[Symbol.iterator]() : (function*(){})();
     acc = iter.next().value;
-    //console.log(acc);
+    console.log('if acc: ',acc);
   };
+
   for (const a of iter) { 
+    console.log("for a.....",a);
+    console.log("ACC .....",acc);
     acc = f(acc, a);
   }; 
   return acc;
 });
 
+const L = {};
+L.range = curried(function* (b,e,s=1) { 
+  console.log('====== start RANGE======');
+  while(b<=e) { 
+    yield b; 
+    b=b+s
+  }
+});
+const range = curried((..._) => [...L.range(..._)]);
+
+console.log( go( range(1,4),reduce((acc,x) => acc + x )));
+
 L.map = curried(function* (f, iter) { for (const a of iter) yield f(a) });
 const map = curried((..._) => [...L.map(..._)]);
 L.flat = function* (iter) { for (const a of iter) (a && a[Symbol.iterator])? yield* a : yield a; };
 const flat = (..._)=>[...L.flat(..._)];
-//console.log(
-//  go (
-//    arr,
-//    reduce((_, a) => a)
-//  )
-//);
 
-//let iStack = [ ...arr[Symbol.iterator]() ];
 const isIterable = function (iter) {return iter != null && !!iter[Symbol.iterator]};
-const toIter = function (iter) {return iter && iter[Symbol.iterator] ? iter[Symbol.iterator]() : (function* (){})()};
 const iStack = [ toIter(arr) ];
 const str = "hello";
 //console.log('toIter: ', toIter(arr));
@@ -78,8 +119,7 @@ console.log('=== recur =======');
     };
   //}
 };
-
-recur(arr);
+//recur(arr);
 //console.log('pop: ',iStack.pop());
 //console.log(isIterrable(iStack.pop()));
 /*
@@ -108,12 +148,6 @@ const rangeIterator = (start, end) => ({
   }
 });
 
-const iter = rangeIterator(1, 5);
-log(iter.next());
-log(iter.next());
-log(iter.next());
-log(iter.next());
-log(iter.next());
 
 const users = [
   { name: 'a', age: 21, family: [
@@ -132,8 +166,18 @@ const users = [
     { name: 'd3', age: 11 }, { name: 'd4', age: 7 }
   ] }
 ];
-console.log("----------------");
-console.log (go (users, map(u => [u, u.family]), flat, flat));
 
-console.log(go(arr,flat));
+
+//console.log(
+//  range(1,5),
+//  map((x)=>range(1 ,x),range(1,5)),
+//  map(map(()=> '*') ,map((x)=>range(1 ,x),L.range(1,5))),
+//  map(reduce((acc, x)=>acc + x ), map(map(()=> '*') ,map((x)=>range(1 ,x),L.range(1,5)))),
+//  reduce((acc,x)=> `${acc}\n${x}`,`\n`,map(reduce((acc, x)=>acc + x ), map(map(()=> '*') ,map((x)=>range(1 ,x),L.range(1,5))))),
+//  reduce((acc,x)=> `${acc}\n${x}`,`\n`,map(reduce((acc, x)=>acc + x ), map(map(()=> '*') ,map((x)=>range(1 ,2*x),L.range(1,5))))),
+//  map(map(()=>`\xa0`) ,map((x)=>range(1 ,x),L.range(1,5))),
+//  reduce((acc,x)=> `${acc}\n${x}`,`\n`,map(reduce((acc, x)=>acc + x ), map(map(()=> '*') ,map((x)=>range(1 ,x),L.range(1,5))))),
+//);
+
+
 
