@@ -1,0 +1,55 @@
+<!DOCTYPE html> 
+<html>
+  <head>
+  </head>
+
+
+  <body>
+  <main></main>
+
+  </body>
+<script>
+
+
+const by = (cls) => {
+  Object.entries(cls)
+    .filter(([k,v])=>typeof v.getValue == 'function' && v.setValue == 'function') // ["name",TestDelegate],["company",TestDelegate]]
+    .reduce(
+      (acc,[k,v])=>
+        {
+          Object.defineProperty(acc
+            ,k
+            ,{
+              get(){
+                v.getValue(this,k);
+              }
+              ,set(k){
+                v.setValue(this,k,v);
+              }}
+          );
+          return acc
+        }
+      ,cls.prototype
+    );
+  return cls;
+};
+
+const lazy =f=>{
+  let v;
+  return {
+    getValue(target,k){ return v ?? (v = f(target))}
+    ,setValue(target,k,v){}
+  };
+};
+const TestLazy = by(class {
+  static element = lazy(({selector})=>document.querySelector(selector));
+  selector;
+  constructor(selector){
+    this.selector = selector;
+  }
+});
+    const test = new TestLazy("#test");
+    //document.querySelector("main").innerHTML = `<div id="test">test ㅁㅓ지 ...</div>`;
+    console.log(document.getElementById('test').innerHTML);
+</script>
+</html>
