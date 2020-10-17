@@ -23,6 +23,8 @@ data.map(row =>{
       let td = document.createElement('td');
       let txt = document.createTextNode(item);
       td.appendChild(txt);
+      if(txt == 1) td.style.display= 'none';
+
       tr.appendChild(td);
       return tr;
     },document.createElement('tr'))

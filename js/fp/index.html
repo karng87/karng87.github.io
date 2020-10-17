@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>이슈 트래커</title>
+    <script src="fs.js"></script>
+    <script src="S.js"></script>
+  </head>
+
+  <body>
+
+    <div id='app'>
+      <div class='page list'>
+        <button type="button" class="create"> 이슈 생성 </button>
+      </div>
+    </div>
+
+    <script>
+const tmpl = _ => `
+    <div class="page editor">
+      <div class="container">
+        <div class="header">
+          <div class="options">
+            <button type="button" class="cancle">취소</button>
+            <button type="button" class="save">저장</button>
+          </div>
+        </div>
+        <div class="body">
+          <div class="name"><input type='text' class='name'></div>
+          <div class="description"><textarea name="description"></textarea></div>
+        </div>
+      </div>
+    </div>
+  `; 
+
+//document.querySelector('.create').onclick = pipe(
+//  tmpl,
+//  html => {
+//      const div = document.createElement('div');
+//      div.innerHTML = html;
+//      return div.children.length == 1 ? div.children[0] : div.children; 
+//    }, 
+//  htmlChildren => document.querySelector('body').appendChild(htmlChildren),
+//  htmlElement => {
+//      htmlElement.querySelector('.save').onclick = console.log;
+//    }
+//);
+
+document
+  .querySelector('.create')
+  .addEventListener(
+    'click',
+    pipe(
+      tmpl,
+      html => {
+          const div = document.createElement('div');
+          div.innerHTML = html;
+          return div.children.length == 1 ? div.children[0] : div.childred;
+      },
+      htmlChildren => document.querySelector('body').appendChild(htmlChildren),
+      htmlEl =>{ 
+        //console.log('htmlEl: ',htmlEl);
+        const ubound = htmlEl.querySelectorAll('.save');
+        //const iter = ubound[Symbol.iterator]();
+        //console.log(iter.next().value);
+        //console.log(iter.next());
+        //console.log(iter.next());
+        //console.log('htmlEl.querySelectorAll: ',ubound);
+        //for (const a of ubound) console.log('const a of : ',a);
+        htmlEl.addEventListener(
+          'click', 
+          e => {
+            currentTarget = find(el=>el.contains(e.target),ubound);
+            console.log(e);
+            if (currentTarget){
+              const newEvent = {};
+              for(const key in e) newEvent[key] = e[key];
+              Object.assign(newEvent, {originalEvent: e, currentTarget, delegateTarget: htmlEl});
+              console.log(newEvent.delegateTarget);
+              console.log(newEvent.currentTarget);
+              console.log('나 이제 저장 할래~~',{
+                name: go( newEvent.delegateTarget, x => x.querySelector('.name input'), el => el.value),
+                description: go(newEvent.delegateTarget, x=> x.querySelector('.description textarea'), x => x.value)
+              });
+            };
+          }
+        ) 
+      }
+    )
+  );
+    </script>
+  </body>
+</html>
