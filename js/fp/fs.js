@@ -11,21 +11,23 @@
     }
   } 
 
-  const reduce = curried( async (f,acc,iter,n=Infinity) => {
+  const reduce = curried( async (f, acc, iter, n=Infinity) => {
     if(!iter) {
-      iter = (await acc)[Symbol.iterator] ? (await acc)[Symbol.iterator]() : (function*(){})();
-      acc = (await iter.next()).value;
+      iter = [Symbol.iterator] ? [Symbol.iterator]() : (function*(){})();
+      acc = await iter.next().value;
     }
 
     for (const a of iter) {
-      if (n === 0) break;
-      acc = await f(acc, a);
-      n--;
+      acc = await f(acc, await a);
+      if( --n == 0 ) break;
     }
     return acc;
   });
 
-  const take = curried( async(n, iter) => 
+  const pipe = (...fs) => x => reduce( (x,f)=>f(x), x, fs );
+  const go = (x,...xs) => reduce((a,b)=> b(a),x,xs);
+
+  const take = curried( async (n, iter) => 
     reduce( 
       (a,b)=>{ 
         if (a.length === n) return a; 
@@ -38,42 +40,40 @@
     )
   );
 
-  A.take = curried(async(n,iter) => {
-    if (typeof(n) !== 'number' || n < 1) return;
-    let res = [];
-    for (const a of iter) {
-      try {
-        res.push(await a);
-      }catch(err){
-        return Promise.reject(err);
-      }
-      if (res.length === n) return res;
+  L.flat = function* (iter) {
+    for (const a of iter){
+      a[Symbol.iterator] ? yield* a : yield a;
     }
-  });
+  }
 
-  C.take = curried( (n,iter) => {
-    const il = iter.length;
-    if (il < 1 || typeof(n) !== 'number' || n < 1) return;
-    let limit = n;
-    if (il < limit) limit = il;
-
-    let res = [];
-    for (const a of iter) {
-      res.push(a);
-      if (res.length === limit) return res;
+  L.flatten = function* rec (iter) {
+    for (const a of iter){
+      a[Symbol.iterator] ? yield* rec(a) : yield a;
     }
-  });
+  }
 
-
+  L.map = async function*(f,iter){
+    for (const a of await iter){
+      yield await f(await a);
+    }
+  }
   const map = curried( async (f,iter) => {
-    return reduce ( (acc, b) => { acc.push(f(b)); return acc; }, [], await iter)} );
-  const filter = curried( async (f,iter) => reduce ((a,b)=>{ 
-    f(b) ? a.push(b) : a;
-    return a;
-  },[],await iter)); 
+    return reduce ( 
+      (acc, b) => 
+      { 
+        acc.push(f(b)); 
+        return acc; 
+      }, [], await iter)} );
 
-  const pipe = (...fs) => x => reduce( (x,f)=>f(x), x, fs );
-  const go = (x,...xs) => reduce((a,b)=> b(a),x,xs);
+  const filter = curried( async (f,iter) => 
+    {
+      return reduce (
+        (acc,b)=>
+        { 
+          f(b) ? acc.push(b) : acc;
+          return acc;
+        }, [], await iter)
+    }); 
 
   const find = curried((f,iter) => {
     for (const a of iter) if(f(a)) return a;

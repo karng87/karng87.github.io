@@ -3,8 +3,8 @@
   <head>
     <meta charset="UTF-8">
     <title>이슈 트래커</title>
-    <script src="fs.js"></script>
-    <script src="S.js"></script>
+    <script  src="fs.js"></script>
+    <script  src="S.js"></script>
   </head>
 
   <body>
@@ -79,8 +79,12 @@ document
               console.log(newEvent.delegateTarget);
               console.log(newEvent.currentTarget);
               console.log('나 이제 저장 할래~~',{
-                name: go( newEvent.delegateTarget, x => x.querySelector('.name input'), el => el.value),
-                description: go(newEvent.delegateTarget, x=> x.querySelector('.description textarea'), x => x.value)
+                name: go( 
+                  newEvent.delegateTarget, 
+                  x => x.querySelector('.name input'), 
+                  el => el.value
+                ),
+                description: go(newEvent.delegateTarget, x=> x.querySelector('.description textarea'), async x => (await x).value)
               });
             };
           }
